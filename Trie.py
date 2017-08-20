@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import json
+from flask import Flask, request, session, g, redirect, url_for, abort, \
+    render_template, flash
+
+app = Flask(__name__)
 
 
 class Node:
@@ -34,9 +38,6 @@ class Trie:
     def add(self, word):
         current_node = self.head
         word_finished = True
-
-        if word == 'فى':
-            koko = "inside"
 
         for i in range(len(word)):
             if word[i] in current_node.children:
@@ -100,12 +101,12 @@ class Trie:
                         break
             else:
                 for i in range(0, list_size):
-                        if i == list_size-1 or counter <= self.wordList[i+1][1]:
-                            self.wordList.insert(i, temp)
-                            self.wordChecker[word] = 1
-                            del self.wordList[0]
-                            self.min = self.wordList[0][1]
-                            return
+                    if i == list_size - 1 or counter <= self.wordList[i + 1][1]:
+                        self.wordList.insert(i, temp)
+                        self.wordChecker[word] = 1
+                        del self.wordList[0]
+                        self.min = self.wordList[0][1]
+                        return
 
         if list_size < self.n:
             if word in self.wordChecker:
@@ -140,25 +141,33 @@ class Trie:
         return current_node.data
 
 
-if __name__ == '__main__':
-    """ Example use """
-    with open('myfile.txt', 'r+') as myfile:
+@app.route("/")
+def checker():
+    ter = Trie()
+    with open('myfile.txt', 'r') as myfile:
         words = myfile.read().replace('\n', '')
-    trie = Trie()
     wordCount = 0
     for word in words.split():
         wordCount += 1
-        trie.add(word)
-    outfile = 'result.txt'
-    jiji = json.dumps(trie.wordList)
-    with open(outfile, 'wb') as outfile:
-        json.dump(jiji.encode('utf-8'), outfile)
-        print(jiji.encode('utf-8'))
+        ter.add(word)
+    return json.dumps({'wordList': ter.wordList})
 
-    with open('myfile.txt', 'r+') as filo:
-        filo.write(trie.wordList[70][1])
 
-    print wordCount
+if __name__ == "__main__":
+    app.run()
 
-    trie.get_most_frequent()
-    print trie.has_word('عرض')
+# if __name__ == '__main__':
+#     """ Example use """
+#     with open('myfile.txt', 'r') as myfile:
+#         words = myfile.read().replace('\n', '')
+#     trie = Trie()
+#     wordCount = 0
+#     for word in words.split():
+#         wordCount += 1
+#         trie.add(word)
+#
+#
+#     print wordCount
+#
+#     trie.get_most_frequent()
+#     print trie.has_word('عرض')
