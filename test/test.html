@@ -40,26 +40,26 @@
   </style>
   </head>
 <body>
-  <div id="my_canvas" style="height: 5000px;
-    width: 5000px; "></div>
+  <div id="my_canvas" style="height: 100px;
+    width: 100px; "></div>
     <button>
-      hello
+      hellos
     </button>
 </body>
-  <script src="//code.jquery.com/qunit/qunit-1.10.0.js"></script>
+  <!-- <script src="//code.jquery.com/qunit/qunit-1.10.0.js"></script>
   <script src="./async_storage.js"></script>
-  <script src="./util.js"></script>
+  <script src="./util.js"></script> -->
 
   <!-- script to test -->
   <script src="../src/wordcloud2.js"></script>
 
   <!-- test scripts -->
-  <script src="unit/basics.js"></script>
-  <script src="unit/options.js"></script>
+  <!-- <script src="unit/basics.js"></script>
+  <script src="unit/options.js"></script> -->
 
   <!-- test scripts -->
 <script type="text/javascript">
-var list = [['foo',1000], ['bar', 200],['koko',350]];
+var list =  [["\u00ef\u00bb\u00bf", 10], ["why", 10], ["شس", 10], ["i", 10], ["get", 10], ["a", 30], ["weird", 10], ["char", 10], ["??", 10], ["this", 10], ["is", 10], ["decent", 10], ["text", 10], ["for", 10], ["change", 10]];
   WordCloud(document.getElementById('my_canvas'), { list: list } );
 
 </script>

@@ -9,46 +9,59 @@
 
 
 
-<div id="DIV_1">
+<div >
 	<h2 id="H2_2">
 		<span id="SPAN_3">Sign up for an account</span>
 	</h2>
 	<form id="FORM_4" name="register-form" action="/postregister" method="post">
 		<input type="hidden" name="_token" value="6WLiOj3Did7QAnZ8J9kCiH8wkd4gUQxwg0nkxnax" id="INPUT_5" />
 		<div id="DIV_6">
-			 
+
 			<label for="register-form-name" id="LABEL_7">
 				Page Name
 			</label>
 			<input type="text" id="INPUT_8" name="register-form-name" />
 		</div>
 		<div id="DIV_9">
-			 
+
 			<label for="register-form-email" id="LABEL_10">
 				Search Word
 			</label>
 			<input type="text" id="INPUT_11" name="register-form-email" />
 		</div>
-		<div id="DIV_15">
-			 
-			<button id="BUTTON_16" name="register-form-submit" value="register">
-				Create Word Cluster Diagram
-			</button>
+    	<div id="DIV_16">
 
-			<button id="BUTTON_16" name="register-form-submit" value="register">
-				Search Word 
-			</button>
-			
-		</div>
+    			<button id="BUTTON_16" name="register-form-submit" value="register">
+    				Visualize
+    			</button>
+    </div>
 	</form>
 	<!--<div style="min-height:200px;"><h3>Thank you</h3></div>-->
-
+<!-- 
+  <div id="my_canvas" style="height: 400px;
+    width: 300px; "></div> -->
+    <canvas id="my_canvas" class="canvas" width="1170" height="760" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
 	<!-- THANK YOU MESSAGE -->
 
 </div>
-
-
-
-  <script src="/wordCluster.js"></script>
 </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='wordClusterJquery.js') }}"></script>
+<script src="{{ url_for('static', filename='wordcloud2.js') }}"></script>
+  <script type="text/javascript">
+  var options =
+  {
+    gridSize: 4,
+  weightFactor: 1,
+  fontFamily: 'Hiragino Mincho Pro, serif',
+  color: 'random-dark',
+  backgroundColor: '#f0f0f0',
+  rotateRatio: 0.5,
+  rotationSteps: 2,
+  ellipticity: 1
+};
+  var list =  [["\u00ef\u00bb\u00bf", 10], ["why", 10], ["شس", 10], ["i", 10], ["get", 10], ["a", 30], ["weird", 10], ["char", 10], ["??", 10], ["this", 10], ["is", 10], ["decent", 10], ["text", 10], ["for", 10], ["change", 10]];
+  console.log(list)
+    WordCloud(document.getElementById('my_canvas'), { list: list } , options );
+  </script>
 </html>

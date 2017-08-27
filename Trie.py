@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import json
+import ast
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash
 
@@ -45,7 +47,8 @@ class Trie:
                 if i == len(word) - 1:
                     current_node.counter += 1
                     if current_node.counter > self.min:
-                        self.set_most_frequent(word, current_node.counter)
+                        if len(word) > 2:
+                            self.set_most_frequent(word, current_node.counter)
             else:
                 word_finished = False
                 break
@@ -58,7 +61,8 @@ class Trie:
                 if i == len(word) - 1:
                     current_node.counter += 1
                     if current_node.counter > self.min:
-                        self.set_most_frequent(word, current_node.counter)
+                        if len(word) > 2:
+                            self.set_most_frequent(word, current_node.counter)
                 i += 1
 
         # Let's store the full word at the end node so we don't need to
@@ -125,8 +129,8 @@ class Trie:
     def get_most_frequent(self):
         self.wordList.sort(key=lambda x: x[1])
         for i in range(0, len(self.wordList)):
-            print self.wordList[i][0]
-            print self.wordList[i][1]
+            print (self.wordList[i][0])
+            print (self.wordList[i][1])
 
     def getData(self, word):
         """ This returns the 'data' of the node identified by the given word """
@@ -144,17 +148,32 @@ class Trie:
 @app.route("/")
 def checker():
     ter = Trie()
-    with open('myfile.txt', 'r') as myfile:
-        words = myfile.read().replace('\n', '')
+    with open('myfile.txt', 'r', encoding='utf-8') as myfile:
+        words = myfile.read()
     wordCount = 0
     for word in words.split():
         wordCount += 1
         ter.add(word)
     return json.dumps({'wordList': ter.wordList})
 
+@app.route("/getList",  methods=['POST','GET'])
+def getter():
+    ter = Trie()
+    with open('myfile.txt', 'r', encoding='utf-8') as myfile:
+        words = myfile.read()
+    wordCount = 0
+    for word in words.split():
+        wordCount += 1
+        ter.add(word)
+    return json.dumps(ter.wordList)
+
+@app.route("/visualize")
+def show():
+        return render_template("wordCluster.html")
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
 
 # if __name__ == '__main__':
 #     """ Example use """
